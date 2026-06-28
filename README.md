@@ -15,14 +15,23 @@ Proyecto de **behavioral cloning** para conducción autónoma en simulador Webot
 ```
 Entrenamiento_behavioralC/
 ├── dataset/
-│   ├── images/          # Fotogramas capturados desde Webots (~27 000 imágenes)
-│   └── labels.csv       # Etiquetas: timestamp, sim_time, imagen, steering, speed, command
+│   ├── images/              # Fotogramas capturados desde Webots (~27 000 imágenes)
+│   └── labels.csv           # Etiquetas: timestamp, sim_time, imagen, steering, speed, command
 ├── notebooks/
-│   └── nvidia_model.ipynb  # Pipeline completo de entrenamiento
-└── src/                 # Scripts auxiliares (en desarrollo)
+│   └── nvidia_model.ipynb   # Pipeline completo de entrenamiento (exploración)
+├── scripts/
+│   ├── setup.sh             # Instala dependencias en el entorno conda
+│   └── run_train.sh         # Verifica el dataset y lanza el entrenamiento
+├── src/
+│   ├── model.py             # Arquitectura NVIDIA
+│   ├── train.py             # Script principal de entrenamiento
+│   └── utils.py             # Carga, augmentación y preprocesamiento
+└── requirements.txt
 ```
 
 ## Dataset
+
+El dataset lo genera el controlador de Webots al presionar la tecla **`g`** durante la conducción manual. **No se descarga**, debe grabarse antes de ejecutar el entrenamiento.
 
 | Campo | Descripción |
 |-------|-------------|
@@ -31,19 +40,36 @@ Entrenamiento_behavioralC/
 | `speed` | Velocidad de la simulación |
 | `command` | Comando de conducción activo |
 
-## Notebook
+## Instalación
 
-`notebooks/nvidia_model.ipynb` implementa el pipeline completo:
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/Jarcos09/Entrenamiento_behavioralC.git
+cd Entrenamiento_behavioralC
+
+# 2. Instalar dependencias en el entorno conda (nav)
+bash scripts/setup.sh
+```
+
+## Uso
+
+```bash
+# Lanzar entrenamiento
+bash scripts/run_train.sh
+```
+
+El script verifica que el dataset exista antes de arrancar y muestra un error claro si falta. El modelo entrenado se guarda como `nvidia_model.keras` en la raíz del proyecto.
+
+## Pipeline de entrenamiento
 
 1. **Carga y verificación** del dataset generado en Webots
 2. **Balanceo** — submuestreo por bins para evitar sesgo hacia `steering = 0`
 3. **Data augmentation** — zoom, pan, brillo aleatorio y flip horizontal
 4. **Preprocesamiento** — blur gaussiano, conversión RGB → YUV, normalización a `[-1, 1]`
-5. **Modelo NVIDIA** — 5 capas convolucionales + 3 capas densas con Dropout
-6. **Entrenamiento** — Adam (lr=1e-4), MSE, con EarlyStopping y ReduceLROnPlateau
-7. **Exportación** — modelo guardado como `nvidia_model.keras`
+5. **Entrenamiento** — Adam (lr=1e-4), MSE, con EarlyStopping y ReduceLROnPlateau
+6. **Exportación** — modelo guardado como `nvidia_model.keras`
 
-### Arquitectura
+### Arquitectura NVIDIA
 
 ```
 Input (76 × 320 × 3)
@@ -61,19 +87,6 @@ Input (76 × 320 × 3)
 
 Total de parámetros: **559 419** (~2.1 MB)
 
-## Instalación
-
-```bash
-# 1. Clonar el repositorio
-git clone https://github.com/Jarcos09/Entrenamiento_behavioralC.git
-cd Entrenamiento_behavioralC
-
-# 2. Instalar dependencias
-pip install -r requirements.txt
-```
-
-> **Nota:** el dataset (`dataset/images/` y `dataset/labels.csv`) no está incluido en el repositorio. Debes grabarlo desde Webots con el controlador (tecla **`g`**) antes de ejecutar el notebook.
-
 ## Dependencias
 
 ```
@@ -89,4 +102,4 @@ numpy
 
 ## Requisitos de hardware
 
-Entrenado con **NVIDIA GeForce RTX 5080** . El notebook funciona en CPU pero el entrenamiento será considerablemente más lento.
+Entrenado con **NVIDIA GeForce RTX 5080** (17.1 GB VRAM). El notebook y el script funcionan en CPU pero el entrenamiento será considerablemente más lento.
