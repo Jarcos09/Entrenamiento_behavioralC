@@ -11,16 +11,15 @@
 <table align="center">
   <thead>
     <tr>
-      <th>#</th>
       <th>Nombre</th>
       <th>Matrícula</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td>1</td><td>Luis Gabriel Lobato Barajas</td><td><code>A01797069</code></td></tr>
-    <tr><td>2</td><td>Ángel Eduardo Pérez Cruz</td><td><code>A01797661</code></td></tr>
-    <tr><td>3</td><td>Juan Carlos Pérez Nava</td><td><code>A01795941</code></td></tr>
-    <tr><td>4</td><td>Israel Sánchez Arenas</td><td><code>A01797385</code></td></tr>
+    <tr><td>Luis Gabriel Lobato Barajas</td><td><code>A01797069</code></td></tr>
+    <tr><td>Ángel Eduardo Pérez Cruz</td><td><code>A01797661</code></td></tr>
+    <tr><td>Juan Carlos Pérez Nava</td><td><code>A01795941</code></td></tr>
+    <tr><td>Israel Sánchez Arenas</td><td><code>A01797385</code></td></tr>
   </tbody>
 </table>
 
