@@ -1,3 +1,11 @@
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.12-blue?style=flat&logo=python&logoColor=white" alt="Python 3.14"/>
+  <img src="https://img.shields.io/badge/Modelo-Nvidia%20Model-orange?style=flat"/>
+  <img src="https://img.shields.io/badge/GPU-RTX%205080-76b900?style=flat&logo=nvidia&logoColor=white" alt="Nvidia RTX"/>
+</p>
+
+---
+
 # Entrenamiento Behavioral Cloning — NVIDIA Model
 
 Proyecto de **behavioral cloning** para conducción autónoma en simulador Webots. El dataset se genera conduciendo manualmente y el modelo aprende a replicar el comportamiento a partir de imágenes de cámara.
@@ -15,8 +23,6 @@ Entrenamiento_behavioralC/
 ```
 
 ## Dataset
-
-El dataset lo genera el controlador de Webots al presionar la tecla **`g`** durante la conducción manual. **No se descarga**, debe grabarse antes de ejecutar el notebook.
 
 | Campo | Descripción |
 |-------|-------------|
@@ -55,6 +61,19 @@ Input (76 × 320 × 3)
 
 Total de parámetros: **559 419** (~2.1 MB)
 
+## Instalación
+
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/Jarcos09/Entrenamiento_behavioralC.git
+cd Entrenamiento_behavioralC
+
+# 2. Instalar dependencias
+pip install -r requirements.txt
+```
+
+> **Nota:** el dataset (`dataset/images/` y `dataset/labels.csv`) no está incluido en el repositorio. Debes grabarlo desde Webots con el controlador (tecla **`g`**) antes de ejecutar el notebook.
+
 ## Dependencias
 
 ```
@@ -70,4 +89,4 @@ numpy
 
 ## Requisitos de hardware
 
-Entrenado con **NVIDIA GeForce RTX 5080** (17.1 GB VRAM). El notebook funciona en CPU pero el entrenamiento será considerablemente más lento.
+Entrenado con **NVIDIA GeForce RTX 5080** . El notebook funciona en CPU pero el entrenamiento será considerablemente más lento.
