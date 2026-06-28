@@ -31,7 +31,7 @@ Entrenamiento_behavioralC/
 
 ## Dataset
 
-El dataset lo genera el controlador de Webots al presionar la tecla **`g`** durante la conducción manual. **No se descarga**, debe grabarse antes de ejecutar el entrenamiento.
+El dataset lo genera el controlador de Webots al presionar la tecla **`g`** durante la conducción manual.
 
 | Campo | Descripción |
 |-------|-------------|
@@ -40,7 +40,7 @@ El dataset lo genera el controlador de Webots al presionar la tecla **`g`** dura
 | `speed` | Velocidad de la simulación |
 | `command` | Comando de conducción activo |
 
-## Instalación
+## Clonar Repositorio
 
 ```bash
 # 1. Clonar el repositorio
@@ -57,8 +57,7 @@ bash scripts/setup.sh
 # Lanzar entrenamiento
 bash scripts/run_train.sh
 ```
-
-El script verifica que el dataset exista antes de arrancar y muestra un error claro si falta. El modelo entrenado se guarda como `nvidia_model.keras` en la raíz del proyecto.
+El modelo entrenado se guarda como `nvidia_model.keras` en la raíz del proyecto.
 
 ## Pipeline de entrenamiento
 
