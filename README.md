@@ -50,14 +50,56 @@ Entrenamiento_behavioralC/
 
 ## Dataset
 
-El dataset lo genera el controlador de Webots al presionar la tecla **`g`** durante la conducción manual.
+El dataset es generado por el controlador de Webots utilizando el escenario "city_traffic_2025_01”, el cual carece de elementos de tráfico, peatones y vehículos detenidos en las carreteras.
 
-| Campo | Descripción |
-|-------|-------------|
-| `image` | Nombre del archivo PNG |
-| `steering` | Ángulo de dirección (regresión continua) |
-| `speed` | Velocidad de la simulación |
-| `command` | Comando de conducción activo |
+<table>
+  <thead>
+    <tr>
+      <th>Campo</th>
+      <th>Tipo</th>
+      <th>Descripción</th>
+      <th>Usado en entrenamiento</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>timestamp</code></td>
+      <td>string</td>
+      <td>Identificador único del fotograma</td>
+      <td align="center">—</td>
+    </tr>
+    <tr>
+      <td><code>sim_time</code></td>
+      <td>float</td>
+      <td>Tiempo de simulación en segundos</td>
+      <td align="center">—</td>
+    </tr>
+    <tr>
+      <td><code>image</code></td>
+      <td>string</td>
+      <td>Nombre del archivo PNG en <code>dataset/images/</code></td>
+      <td align="center">✅</td>
+    </tr>
+    <tr>
+      <td><code>steering</code></td>
+      <td>float</td>
+      <td>Ángulo de dirección — variable objetivo (regresión)</td>
+      <td align="center">✅</td>
+    </tr>
+    <tr>
+      <td><code>speed</code></td>
+      <td>int</td>
+      <td>Velocidad del vehículo en la simulación</td>
+      <td align="center">—</td>
+    </tr>
+    <tr>
+      <td><code>command</code></td>
+      <td>int</td>
+      <td>Comando de conducción activo</td>
+      <td align="center">—</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Clonar Repositorio
 
@@ -120,4 +162,4 @@ numpy
 
 ## Requisitos de hardware
 
-Entrenado con **NVIDIA GeForce RTX 5080** (17.1 GB VRAM). El notebook y el script funcionan en CPU pero el entrenamiento será considerablemente más lento.
+Entrenado con **NVIDIA GeForce RTX 5080**. El notebook y el script funcionan en CPU pero el entrenamiento será considerablemente más lento.
