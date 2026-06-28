@@ -163,3 +163,12 @@ numpy
 ## Requisitos de hardware
 
 Entrenado con **NVIDIA GeForce RTX 5080**. El notebook y el script funcionan en CPU pero el entrenamiento será considerablemente más lento.
+
+---
+
+## Declaración de uso de Inteligencia Artificial
+
+**Herramienta utilizada:**
+
+> Anthropic. (2026). *Claude* (claude-sonnet-4-6) \[Modelo de lenguaje grande\]. Utilizado para refinamiento de código Python.
+> https://claude.ai
