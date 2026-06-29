@@ -101,6 +101,40 @@ El dataset es generado por el controlador de Webots utilizando el escenario "cit
   </tbody>
 </table>
 
+## Controlador Manual (`manual_controller.py`)
+
+El controlador corre dentro de Webots y es el encargado de generar el dataset.
+
+<!--
+| Modo | Descripción |
+|------|-------------|
+| **AUTÓNOMO** | Seguidor de carril con control PID sobre la línea blanca detectada en HSV |
+| **MANUAL** | El operador conduce con el teclado y asigna comandos de navegación en las intersecciones |
+-->
+
+### Teclas
+
+| Tecla | Acción |
+|-------|--------|
+| `r` | Iniciar / detener grabación del dataset |
+<!--| `q` | Cambiar entre modo AUTÓNOMO y MANUAL |-->
+| `←` / `→` | Giro suave (tope ±0.1 rad) |
+| `a` / `d` | Vuelta cerrada (tope ±0.5 rad) |
+| `↑` / `↓` | Acelerar / frenar–reversa |
+| `Espacio` | Freno de emergencia |
+| `c` | Comando de cruce recto en intersección |
+
+### Grabación del dataset
+
+La grabación se activa con **`r`** y guarda cada muestra en `dataset/images/` + una fila en `dataset/labels.csv`. Para no saturar el dataset con frames casi rectos, la cadencia varía según el ángulo aplicado:
+
+| Situación | Cadencia |
+|-----------|----------|
+| Recta (`\|steering\|` < 0.04 rad) | 1 muestra cada 0.2 s (~5/seg) |
+| Curva (`\|steering\|` ≥ 0.04 rad) | 1 muestra cada 0.1 s (~10/seg) |
+
+Cada imagen se recorta con un ROI que elimina el cielo y los edificios (mitad superior de la cámara), dejando solo la zona relevante de la vía. Las corridas de distintos operadores se acumulan en el mismo CSV sin colisiones de nombre gracias a la etiqueta `DATASET_TAG`.
+
 ## Clonar Repositorio
 
 ```bash
