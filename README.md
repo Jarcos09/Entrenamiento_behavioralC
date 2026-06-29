@@ -45,6 +45,7 @@ Entrenamiento_behavioralC/
 │   ├── model.py             # Arquitectura NVIDIA
 │   ├── train.py             # Script principal de entrenamiento
 │   └── utils.py             # Carga, augmentación y preprocesamiento
+├── manual_controller.py     # Controlador Webots
 └── requirements.txt
 ```
 
