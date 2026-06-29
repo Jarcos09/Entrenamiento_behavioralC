@@ -123,7 +123,6 @@ El controlador corre dentro de Webots y es el encargado de generar el dataset.
 | `a` / `d` | Vuelta cerrada (tope ±0.5 rad) |
 | `↑` / `↓` | Acelerar / frenar–reversa |
 | `Espacio` | Freno de emergencia |
-| `c` | Comando de cruce recto en intersección |
 
 ### Grabación del dataset
 
