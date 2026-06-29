@@ -114,10 +114,11 @@ El controlador corre dentro de Webots y es el encargado de generar el dataset.
 
 ### Teclas
 
+<!--| `q` | Cambiar entre modo AUTÓNOMO y MANUAL |-->
+
 | Tecla | Acción |
 |-------|--------|
 | `r` | Iniciar / detener grabación del dataset |
-<!--| `q` | Cambiar entre modo AUTÓNOMO y MANUAL |-->
 | `←` / `→` | Giro suave (tope ±0.1 rad) |
 | `a` / `d` | Vuelta cerrada (tope ±0.5 rad) |
 | `↑` / `↓` | Acelerar / frenar–reversa |
