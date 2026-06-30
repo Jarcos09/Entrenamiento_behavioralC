@@ -45,7 +45,14 @@ Entrenamiento_behavioralC/
 │   ├── model.py             # Arquitectura NVIDIA
 │   ├── train.py             # Script principal de entrenamiento
 │   └── utils.py             # Carga, augmentación y preprocesamiento
-├── manual_controller.py     # Controlador Webots
+├── mundos/
+│   ├── city_01/             # Escenario sin tráfico — usado para grabación del dataset
+│   │   └── city_traffic_2025_01.wbt
+│   └── city_02/             # Escenario con tráfico SUMO (vehículos en movimiento)
+│       ├── city_traffic_2025_02.wbt
+│       ├── city_traffic_2025_02_net/  # Red de tráfico SUMO (.xml, .sumocfg)
+│       └── protos/          # Modelo BMWX5
+├── manual_controller.py     # Controlador para entrenamiento Webots
 └── requirements.txt
 ```
 
