@@ -52,7 +52,8 @@ Entrenamiento_behavioralC/
 │       ├── city_traffic_2025_02.wbt
 │       ├── city_traffic_2025_02_net/  # Red de tráfico SUMO (.xml, .sumocfg)
 │       └── protos/          # Modelo BMWX5
-├── manual_controller.py     # Controlador para entrenamiento Webots
+├── manual_controller.py     # Controlador Webots: modos AUTÓNOMO (PID) y MANUAL + grabación
+├── model_controller.py      # Controlador autónomo: CNN + evasión + ACC + semáforo + peatón
 └── requirements.txt
 ```
 
@@ -113,13 +114,6 @@ El dataset es generado por el controlador de Webots utilizando el escenario "cit
 
 El controlador corre dentro de Webots y es el encargado de generar el dataset.
 
-<!--
-| Modo | Descripción |
-|------|-------------|
-| **AUTÓNOMO** | Seguidor de carril con control PID sobre la línea blanca detectada en HSV |
-| **MANUAL** | El operador conduce con el teclado y asigna comandos de navegación en las intersecciones |
--->
-
 ### Teclas
 
 <!--| `q` | Cambiar entre modo AUTÓNOMO y MANUAL |-->
@@ -142,6 +136,46 @@ La grabación se activa con **`r`** y guarda cada muestra en `dataset/images/` +
 | Curva (`\|steering\|` ≥ 0.04 rad) | 1 muestra cada 0.1 s (~10/seg) |
 
 Cada imagen se recorta con un ROI que elimina el cielo y los edificios (mitad superior de la cámara), dejando solo la zona relevante de la vía. Las corridas de distintos operadores se acumulan en el mismo CSV sin colisiones de nombre gracias a la etiqueta `DATASET_TAG`.
+
+## Controlador Autónomo (`model_controller.py`)
+
+Este controlador corre dentro de Webots y conduce el vehículo de forma completamente autónoma combinando cuatro comportamientos con una jerarquía de prioridad clara:
+
+| Prioridad | Comportamiento | Descripción |
+|:---------:|----------------|-------------|
+| 1 | **Freno de emergencia** | Si la cámara detecta un peatón y el radar lo confirma a ≤ 7 m, frena al máximo |
+| 2 | **Semáforo** | Detecta luz roja vía API de reconocimiento + HSV; reduce velocidad al acercarse y frena en seco hasta ver verde |
+| 3 | **Evasión de bus** | Al detectar un autobús parado, ejecuta una maniobra de rebase (sale del carril, adelanta y regresa) |
+| 4 | **CNN** | La red NVIDIA predice el ángulo de dirección a partir de la imagen de cámara — modo de conducción normal |
+| — | **ACC** | Control de crucero adaptativo: sigue al vehículo de delante manteniendo una separación de seguridad de 5 m |
+
+### Modos de operación
+
+| Modo | Cuándo se activa |
+|------|-----------------|
+| `CNN` | Conducción normal — la red neuronal controla el volante |
+| `HOLD` | El bus se detecta a ≤ 15 m — el coche se endereza y espera antes de evadir |
+| `EVASION` | Maniobra activa de rebase (con subfases) |
+| `SEMAFORO` | Luz roja confirmada — frena hasta ver verde o hasta timeout de 5 s |
+| Freno peatón | Máxima prioridad — corta acelerador y aplica freno directo |
+
+### Sensores utilizados
+
+| Sensor | Uso |
+|--------|-----|
+| Cámara + Recognition API | Imagen para la CNN, detección de bus / peatón / semáforo / vehículos |
+| LiDAR Sick LMS 291 | Distancia frontal para disparar la evasión y el ACC |
+| Radar | Confirmación de distancia al peatón (más fiable a corta distancia) |
+| Sensores de distancia lateral | Control de separación durante la maniobra de rebase |
+| Giroscopio | Velocidad angular (eje Z) para guiar la evasión |
+
+### Telemetría en pantalla
+
+El controlador pinta tres paneles de telemetría en los displays del tablero de Webots:
+
+- **Display estado** — modo activo (CNN / HOLD / EVASION / SEMAFORO), barras de volante, velocidad y freno
+- **Display LiDAR** — vista de pájaro del barrido frontal + lecturas de sensores laterales y giroscopio
+- **Display radar** — blancos detectados, velocidad real vs objetivo del ACC y objetos reconocidos
 
 ## Clonar Repositorio
 
